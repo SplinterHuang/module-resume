@@ -1,26 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-
-function App() {
+import { Router, Route, Link ,hashHistory} from 'react-router'
+import Demo1 from './pages/Demo1.js'
+import Workplace from './pages/Workplace.js'
+import Default from './pages/Default.js'
+import Store from './Store.js'
+import { Provider } from 'react-redux'
+ function RoutedApp(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Provider store={Store}>
+      <Router history={hashHistory} >
+        <Route path="/" component={Default} />
+        <Route path="/workplace" component={Workplace} />
+        <Route path="/demo1" component={Demo1} />
+      </Router>
+    </Provider>
+    )
 }
-
-export default App;
+export default RoutedApp;
