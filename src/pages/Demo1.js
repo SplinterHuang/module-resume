@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 export default class Demo1 extends Component {
   render() {
     return (
-      <div></div>
+      <div>
+        1
+      </div>
     );
   }
 }
