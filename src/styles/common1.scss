@@ -1,0 +1,31 @@
+.r-page{
+  padding:20px;
+  width: 794px;
+  border: 1px solid black;
+  height: 794px * 294 / 210;
+}
+.r-info-content-box{
+  margin: 10px 0;
+  .r-info-content{
+    color: #666666;
+    margin: 5px 10px;
+    line-height: 1.4;
+  }
+  .inline{
+    margin-right: 20px;
+  }
+}
+html{
+  font-size: 14px;
+}
+.r-info-label-box{
+  font-size: 14px;
+  color:#333333;
+  .r-info-label-desc{
+    margin-left: 20px;
+    color: #666666;
+  }
+}
+.r-info-label-box{
+  margin:5px;
+}

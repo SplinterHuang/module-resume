@@ -6,6 +6,8 @@ import Demo1 from './pages/Demo1.js'
 import Workplace from './pages/Workplace.js'
 import Default from './pages/Default.js'
 import Store from './Store.js'
+import "./styles/reset.scss"
+import "./styles/form.scss"
 import { Provider } from 'react-redux'
  function RoutedApp(){
   return (

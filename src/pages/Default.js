@@ -1,5 +1,6 @@
 import React, { Component ,useState,useEffect,useRef} from 'react';
 import {connect} from "react-redux";
+import testStyle from '../styles/module/test.css'
 const MyContext = React.createContext();
 function todosReducer(state, action) {
   switch (action.type) {
@@ -113,7 +114,7 @@ function Default(props){
         {console.log('rerender')}
         <Todos/>
         <TextInputWithFocusButton/>
-        <p className="appName">{props.appName}</p>
+        <p className="appName" className={[testStyle.test,testStyle.test].join(' ')}>{props.appName}</p>
         <div>
           2111111111qoe骄傲圣诞节哦；较为佛；i；金额；哦覅我给；房价网；哦二纺机；饿哦呜i积分呜i哦；二街坊围殴；金佛；文件覅偶；为己任；我；我为兼容；危机佛；危机佛为；囧
         }
