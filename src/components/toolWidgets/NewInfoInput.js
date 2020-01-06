@@ -1,5 +1,7 @@
+import {connect} from "react-redux";
+import resumeAction from "../../store/Resume/actions";
 import React, {Component} from 'react';
-import {Info} from './../resumeWidgets/Info'
+import {Info} from '../resumeWidgets/Info'
 import "./NewInfoInput.scss"
 import Modal from "../formWidgets/Modal"
 class InfoInput extends Component {
@@ -21,18 +23,21 @@ class InfoInput extends Component {
     }
   }
   hide() {
-    this.setState({inputVisible: false})
+    // this.props.onHide()
+    // this.setState({inputVisible: false})
   }
   add() {
-    this.setState({inputVisible: true})
+    // this.setState({inputVisible: true})
   }
+  // componentWillReceiveProps(...args){
+    // console.log('args', args)
+  // }
   onContentKeyDown(index,e){
     e.persist()
     // e = e.nativeEvent
     console.log('key down', e,index)
     switch (e.keyCode) {
       case 13://enter
-        
         break;
       case 8:
         let prevValue = this.state.contentInputs[index].value
@@ -151,27 +156,47 @@ class InfoInput extends Component {
     )
   }
   onOk() {
-    let info = {
+    // let info = {
+    //   displayType: this.state.checkedDisplayType,
+    //   items: this.state.contentInputs,
+    // }
+    let info = new Info({
       displayType: this.state.checkedDisplayType,
-      items:this.state.contentInput,
-    }
-    this.props.onOk && this.props.onOk(info)
+      infoClass: this.state.itemTitle,
+    })
+    this.state.contentInputs.forEach((item) => {
+      info.addItem({cn:item.value})
+    })
+    console.log(info);
+    this.props.addNewInfo(info)
+    // this.props.onOk && this.props.onOk(info)
     this.hide()
   }
   render() {
     return (
-      <Modal
-        onOk={this.onOk.bind(this)}
-        onCancel={this.hide.bind(this)}
-        visible={this.state.inputVisible}>
+      // <div>
+
+      // <Modal
+      //   onOk={this.onOk.bind(this)}
+      //   onCancel={this.hide.bind(this)}
+      //   visible={this.props.show}>
         <div  className="r-info-input-box">
           {this.renderDisplayTypeSelect()}
           {this.renderBlockItems()}
         </div>
-      </Modal>
+      // </Modal>
+
+      // </div>
 
     );
   }
 }
 
-export default InfoInput;
+function mapDispatchToProps(dispatch,ownProps){
+  return {
+    addNewInfo(newInfo){
+      dispatch(resumeAction.addInfo(newInfo))
+    },
+  }
+}
+export default connect(null,mapDispatchToProps)(InfoInput);

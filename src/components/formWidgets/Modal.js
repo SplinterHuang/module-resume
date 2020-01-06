@@ -10,8 +10,8 @@ class Modal extends Component {
       return null
     }
     return (
-      <div className="r-modal-box">
-        <div className="wrapper">
+      <div className="r-modal-box" onClick={this.props.onCancel}>
+        <div className="wrapper" onClick={(e)=>{e.stopPropagation()}}>
           <div className="content">
             {this.props.children}
           </div>
@@ -26,6 +26,8 @@ class Modal extends Component {
 }
 Modal.propTypes = {
   // visible:
+  // onCancel
+  // onOk
 
 }
 export default Modal;

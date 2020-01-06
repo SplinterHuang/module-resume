@@ -5,7 +5,6 @@ class ResumeInfo extends Component {
     super(props);
     this.state = {}
   }
-  renderTitle
   renderInlineItems(items) {
     console.log('items', items)
     return (
@@ -120,13 +119,23 @@ export class Title{
     // this.infoClass = infoClass
   }
 }
+export class Content{
+
+}
+export class Item{
+
+}
+
 export class Info {
   constructor({displayType,infoClass}){
     this.displayType = displayType
     this.items = []
     this.infoClass = infoClass
   }
-  addItem(item,index){
+  addItem(item,index){ //item class
+    // {
+    //   cn: "他是人类七国之一——暴风城的国王。"
+    // }
     if(index === undefined){
       this.items.push(item)
     }

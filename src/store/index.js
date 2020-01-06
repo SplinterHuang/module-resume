@@ -3,15 +3,23 @@ import {
   combineReducers,
   applyMiddleware,
   compose
-} from  'redux';
+} from 'redux';
 // import thunkMiddleware from 'redux-thunk'
-
-import AppReducer from './Reducer.js';
-// import Filters from './components/Filters/index.js'
-// import Todos from './components/Todos/index.js'
+import ResumeReducer from "./Resume/reducer";
 
 
-function doNothingMiddleware({dispatch,getsetate}){
+function AppReducer(oldState = {}, action) {
+  // switch(action.type){
+  //   default: return oldState
+  // }
+  return {
+    appName: "modulized resume",
+  }
+}
+function doNothingMiddleware({
+  dispatch,
+  getsetate
+}) {
   return (next) => {
     return (action) => {
       console.log('do nothing middleware')
@@ -21,21 +29,20 @@ function doNothingMiddleware({dispatch,getsetate}){
 }
 // const middlewares = [thunkMiddleware,doNothingMiddleware];
 const middlewares = [doNothingMiddleware];
- 
+
 const reducer = combineReducers({
-  app:AppReducer,
-  // todos:Todos.reducer,
+  app: AppReducer,
+  resume: ResumeReducer,
 })
 
 const storeEnhancers = compose(
   applyMiddleware(...middlewares),
-   (f) => f,
+  (f) => f,
 );
 
 const store = createStore(
-  reducer,
-  {},storeEnhancers
+  reducer, {}, storeEnhancers
 );
-console.log('store',store)
+console.log('store', store)
 
 export default store

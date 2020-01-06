@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 // import testStyle from '../styles/module/test.module.scss'
 import "../styles/common1.scss"
-import ResumeInfo from "../components/resumeWidgets/Info";
+// import ResumeInfo from "../components/resumeWidgets/Info";
 import {Info,Title} from "../components/resumeWidgets/Info";
 import Page from "../components/resumeWidgets/Page"
 
