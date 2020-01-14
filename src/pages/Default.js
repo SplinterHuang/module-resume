@@ -1,4 +1,4 @@
-import React, { Component ,useState,useEffect,useRef} from 'react';
+import React, { Component ,useState,useEffect,useRef, useMemo} from 'react';
 import {connect} from "react-redux";
 import testStyle from '../styles/module/test.css'
 const MyContext = React.createContext();
@@ -62,7 +62,6 @@ function useCustomEffects(count1,count2) {
   return noZeroCount
 }
 
-console.log('useState',useState)
 
 function TextInputWithFocusButton() {
   const inputEl = useRef(null);
@@ -77,7 +76,12 @@ function TextInputWithFocusButton() {
     </div>
   );
 }
-
+function Test(props) {
+  const [test,setTest] = useState(0)
+  return (
+    <div onClick={() => { setTest(test+1)}}>{test}</div>
+  )
+}
 function Default(props){
   const [count, setCount] = useState(0)
   const [count2, setCount2] = useState(0)
@@ -86,46 +90,86 @@ function Default(props){
   useEffect(() => {
     // Update the document title using the browser API
     // document.title = `You clicked ${count} times`;
-    console.log('mount')
+    // console.log('mount')
     // setTimeout(() => {
     //    setCount(count+1)
     // },3000)
     return () => {
-      console.log(`You clicked ${count} times`)
+      // console.log(`You clicked ${count} times`)
     }
   }, []);
  
   useEffect(() => {
-    console.log('count useEffect')
+    // console.log('count useEffect')
     return () => {
       // console.log(`You clicked ${count} times`)
     }
   }, [count]);
   useEffect(() => {
-    console.log('count2 useEffect')
+    // console.log('count2 useEffect')
     return () => {
       // console.log(`You clicked ${count} times`)
     }
   }, [count2]);
   const customEffection = useCustomEffects(count,count2)
   // why custom effect invoke before rerender
-  return (
-      <div className="default">
-        {console.log('rerender')}
-        <Todos/>
-        <TextInputWithFocusButton/>
-        <p className="appName" className={[testStyle.test,testStyle.test].join(' ')}>{props.appName}</p>
-        <div>
-          2111111111qoe骄傲圣诞节哦；较为佛；i；金额；哦覅我给；房价网；哦二纺机；饿哦呜i积分呜i哦；二街坊围殴；金佛；文件覅偶；为己任；我；我为兼容；危机佛；危机佛为；囧
-        }
-        </div>
-        <div className="count">{count}</div>
-        <button onClick={()=>setCount(count+1)}>111</button>
-        <button onClick={()=>setCount2(count2+1)}>222</button>
-        <p className="custom">{customEffection?'true':'false'}</p>
-      </div>
-    );
+  // return useMemo(() => {
+  //   return (
+  //     <div className="default">
+  //       {console.log('rerender')}
+  //       <Todos/>
+  //       <TextInputWithFocusButton/>
+  //       <p className="appName" className={[testStyle.test,testStyle.test].join(' ')}>{props.appName}</p>
+  //       <div>
+  //         2111111111qoe骄傲圣诞节哦；较为佛；i；金额；哦覅我给；房价网；哦二纺机；饿哦呜i积分呜i哦；二街坊围殴；金佛；文件覅偶；为己任；我；我为兼容；危机佛；危机佛为；囧
+  //       }
+  //       </div>
+  //       <div className="count">{count}</div>
+  //       <div className="count">{count2}</div>
+  //       <button onClick={()=>setCount(count+1)}>111</button>
+  //       <button onClick={()=>setCount2(count2+1)}>222</button>
+  //       <p className="custom">{customEffection?'true':'false'}</p>
+  //     </div>
+  //   ) 
+  // },[count,count2]);
+  const MemoCount = useMemo(() => {
+    return () => {
+      console.log('render count',)
+      return <div className="count">{count}</div> 
+    }
+  },[count])
+  const testRef = useRef(null)
+   return (
+     <div className="default">
+       {console.log('rerender')}
+       <Todos/>
+       <Test ref={testRef}> </Test>
+       <TextInputWithFocusButton/>
+       <p className="appName" className={[testStyle.test,testStyle.test].join(' ')}>{props.appName}</p>
+       <div>
+         2111111111qoe骄傲圣诞节哦；较为佛；i；金额；哦覅我给；房价网；哦二纺机；饿哦呜i积分呜i哦；二街坊围殴；金佛；文件覅偶；为己任；我；我为兼容；危机佛；危机佛为；囧
+       }
+       </div>
+       <MemoCount></MemoCount>
+       {/* {
+         useMemo(() => {
+           return () => {
+                     return <div className="count">{count}</div> 
+  
+             
+           } 
+         })
+       } */}
+       
+       <div className="count">{count2}</div>
+       <button onClick={()=>setCount(count+1)}>111</button>
+       <button onClick={()=>setCount2(count2+1)}>222</button>
+       <button onClick={()=>{console.log('test ref',testRef)}}>test</button>
+       <p className="custom">{customEffection?'true':'false'}</p>
+     </div>
+   ) 
 }
+
 export default connect(mapSTP)(Default)
 
 

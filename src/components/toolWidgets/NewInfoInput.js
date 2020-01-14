@@ -1,9 +1,6 @@
-import {connect} from "react-redux";
-import resumeAction from "../../store/Resume/actions";
 import React, {Component} from 'react';
 import {Info} from '../resumeWidgets/Info'
 import "./NewInfoInput.scss"
-import Modal from "../formWidgets/Modal"
 class InfoInput extends Component {
   constructor(props) {
     super(props);
@@ -22,16 +19,9 @@ class InfoInput extends Component {
       ]
     }
   }
-  hide() {
-    // this.props.onHide()
-    // this.setState({inputVisible: false})
+  componentDidMount() {
+    this.props.parentThis.inputDemo = this;
   }
-  add() {
-    // this.setState({inputVisible: true})
-  }
-  // componentWillReceiveProps(...args){
-    // console.log('args', args)
-  // }
   onContentKeyDown(index,e){
     e.persist()
     // e = e.nativeEvent
@@ -155,6 +145,7 @@ class InfoInput extends Component {
       </div>
     )
   }
+  
   onOk() {
     // let info = {
     //   displayType: this.state.checkedDisplayType,
@@ -170,33 +161,25 @@ class InfoInput extends Component {
     console.log(info);
     this.props.addNewInfo(info)
     // this.props.onOk && this.props.onOk(info)
-    this.hide()
+    // this.hide()
   }
+  
   render() {
     return (
-      // <div>
-
-      // <Modal
-      //   onOk={this.onOk.bind(this)}
-      //   onCancel={this.hide.bind(this)}
-      //   visible={this.props.show}>
-        <div  className="r-info-input-box">
+        <div ref="main"  className="r-info-input-box">
           {this.renderDisplayTypeSelect()}
           {this.renderBlockItems()}
         </div>
-      // </Modal>
-
-      // </div>
-
     );
   }
 }
 
-function mapDispatchToProps(dispatch,ownProps){
-  return {
-    addNewInfo(newInfo){
-      dispatch(resumeAction.addInfo(newInfo))
-    },
-  }
-}
-export default connect(null,mapDispatchToProps)(InfoInput);
+// function mapDispatchToProps(dispatch,ownProps){
+//   return {
+//     addNewInfo(newInfo){
+//       dispatch(resumeAction.addInfo(newInfo))
+//     },
+//   }
+// }
+// export default connect(null,mapDispatchToProps)(InfoInput);
+export default InfoInput;

@@ -1,22 +1,45 @@
 import React, { Component } from 'react';
 import "./tool.scss";
 import NewInfoInput from "./NewInfoInput";
-// import Modal from "./../formWidgets/Modal"
+import {Info} from '../resumeWidgets/Info'
+import {
+  Icon
+} from "antd";
+import {
+  connect
+} from "react-redux";
+import resumeAction from "../../store/Resume/actions";
+
 import {Modal,Button} from "antd";
 class Tool extends Component {
   constructor(props) {
     super(props);
-    // this.setRef = this.setRef.bind(this);
-    this.newInfoRef = React.createRef();
     console.log('this.newInfoRef ', this.newInfoRef)
+    this.inputDemo = null
     this.state = { 
       showNewInfo: false,
-      newInfoModalVisible:true,
+      newInfoModalVisible:false,
+      collapsed: false,
+
     }
   }
+  toggle(){
+    this.setState((prevState) => {
+      return {
+          collapsed:!prevState.collapsed
+      } 
+    })
+  }
   handleOk = e => {
-    console.log(e, this.newInfoRef);
-
+    console.log(e, this.inputDemo);
+    let info = new Info({
+      displayType: this.inputDemo.state.checkedDisplayType,
+      infoClass: this.inputDemo.state.itemTitle,
+    })
+    this.inputDemo.state.contentInputs.forEach((item) => {
+      info.addItem({cn:item.value})
+    })
+    this.props.addNewInfo(info)
     this.setState({
       newInfoModalVisible: false,
     });
@@ -29,42 +52,13 @@ class Tool extends Component {
     });
   };
   addInfo(){
-    // this.setState({
-    //   showNewInfo:true,
-    // })
-    // let NewInfoInputForward = React.forwardRef((props, ref) => (
-      // <NewInfoInput ref={ref}/>
-    // ))
     this.setState({
       newInfoModalVisible: true,
     });
-    // this.$showModal({
-    //   onOk:(...args)=>{
-    //     console.log("111",args);
-    //     // console.log('this.newInfoRef.state', this.newInfoRef.state)
-    //   },
-    //   // children: <NewInfoInput ref={this.getRef.bind(this)}/>
-    //   // children:<NewInfoInputForward ref={this.newInfoRef}/>
-    //   children: <NewInfoInput />,
-    // })
   }
-  // setRef(ref) {
-  //   this.newInfoRef = ref;
-  // }
   render() { 
-    // let NewInfo = ({ setRef }) => <NewInfoInput type="text" ref={setRef} />;
-    let NewInfo = React.forwardRef((props, ref) => 
-    {
-      console.log('ref',ref)
-      return (
-        <button ref={ref}>123</button>
-      // <NewInfoInput ref={ref} className="new-info-input-class">
-      //   {/* {props.children} */}
-      // </NewInfoInput>
-      )
-    });
     return (  
-      <div className="r-tool">
+      <div className="r-tool" style={{transform:this.state.collapsed?"translateY(-100%)":""}}>
         <Button onClick={this.addInfo.bind(this)}>添加</Button>
         <Button onClick={this.addInfo.bind(this)}>缩小</Button>
         <Button onClick={this.addInfo.bind(this)}>放大</Button>
@@ -76,11 +70,25 @@ class Tool extends Component {
             onOk={this.handleOk}
             onCancel={this.handleCancel}
           >
-            <NewInfoInput ref="newInfoRef"></NewInfoInput>
+            <NewInfoInput parentThis={this}></NewInfoInput>
         </Modal>
+        <Icon
+          style={{color:"#ccc",fontSize:20,position:"absolute",bottom:-18,left:-1}}
+          type = {
+              this.state.collapsed ? 'down-square' : 'up-square'
+          }
+          onClick={this.toggle.bind(this)}
+        />
       </div>
     );
   }
 }
  
-export default Tool;
+function mapDispatchToProps(dispatch,ownProps){
+  return {
+    addNewInfo(newInfo){
+      dispatch(resumeAction.addInfo(newInfo))
+    },
+  }
+}
+export default connect(null, mapDispatchToProps)(Tool);

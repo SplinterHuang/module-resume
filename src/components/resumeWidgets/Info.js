@@ -1,6 +1,72 @@
 import React, {Component} from 'react';
-import {} from 'prop-types';
+import {
+  PropTypes
+} from 'prop-types';
+import helper from "../../utils/helper";
+import {Button} from "antd";
+import actions from "../../store/Resume/actions"
+import {connect} from "react-redux";
+export class Title {
+  constructor({
+    cn
+  }) {
+    this.displayType = "resumeTitle"
+    this.cn = cn
+    this.uuid = helper.newUuid()
+    // this.items = []
+    // this.infoClass = infoClass
+  }
+}
+export class Content {
+
+}
+export class Item {
+
+}
+
+export class Info {
+  constructor({
+    displayType,
+    infoClass
+  }) {
+    this.displayType = displayType
+    this.items = []
+    this.infoClass = infoClass
+    this.uuid = helper.newUuid()
+
+  }
+  addItem(item, index) { //item class
+    // {
+    //   cn: "他是人类七国之一——暴风城的国王。"
+    // }
+    if (index === undefined) {
+      this.items.push(item)
+    }
+  }
+  removeItem(index) {
+
+  }
+  static showDisplayTypes() {
+    return [
+      "inline", "block", "label", "resumeTitle",
+    ]
+  }
+}
+
 class ResumeInfo extends Component {
+  static propTypes = {
+    showCtrl: PropTypes.bool,
+    // info: PropTypes.object.isRequired.
+    // info: PropTypes.PropTypes.objectOf(Info),
+    info: function (props, propName, componentName) {
+      if (!props.info instanceof Info) {
+        return new Error(
+          'Invalid prop `' + propName + '` supplied to' +
+          ' `' + componentName + '`. Validation failed.'
+        );
+      }
+    },
+  }
   constructor(props) {
     super(props);
     this.state = {}
@@ -77,6 +143,27 @@ class ResumeInfo extends Component {
     console.log('ref',this.refs)
     // getBoundingClientRect
   }
+  renderCtrlBox(){
+    let props = this.props
+    // if(!props.showCtrl){
+    //   return null
+    // }
+    return (
+      <span>
+        {
+          props.showUse &&
+          <Button onClick={props.useInfo.bind(this,props.info)}>
+            使用
+          </Button>
+        }{
+          props.showUnUse &&
+          <Button onClick={props.unUseInfo.bind(this,props.info)}>
+            移除
+          </Button>
+        }
+      </span>
+    )
+  }
   render() {
     let info = this.props.info;
     console.log('info',info)
@@ -102,53 +189,23 @@ class ResumeInfo extends Component {
       <div ref="box">
         <h3 className="r-info r-class-name">
           {info.infoClass}
+          {this.renderCtrlBox()}
         </h3>
         {itemEl}
       </div>
     );
   }
 }
-ResumeInfo.propTypes = {
-  // info:
-}
-export class Title{
-  constructor({cn}){
-    this.displayType = "resumeTitle"
-    this.cn = cn
-    // this.items = []
-    // this.infoClass = infoClass
-  }
-}
-export class Content{
 
-}
-export class Item{
 
-}
-
-export class Info {
-  constructor({displayType,infoClass}){
-    this.displayType = displayType
-    this.items = []
-    this.infoClass = infoClass
-  }
-  addItem(item,index){ //item class
-    // {
-    //   cn: "他是人类七国之一——暴风城的国王。"
-    // }
-    if(index === undefined){
-      this.items.push(item)
+function mapDispatchToProps (dispatch,ownProps) {
+  return {
+    useInfo:(info) => {
+       dispatch(actions.useInfo(info))
+    },
+    unUseInfo: (info) => {
+      dispatch(actions.unUseInfo(info)) 
     }
   }
-  removeItem(index){
-
-  }
-  static showDisplayTypes(){
-    return [
-      "inline", "block", "label", "resumeTitle",
-    ]
-  }
 }
-
-
-export default ResumeInfo;
+export default connect(null,mapDispatchToProps)(ResumeInfo);

@@ -12,7 +12,17 @@ actions.addInfo = function(info) {
     info,
   }
 }
-
-
+actions.useInfo = function (info) {
+  return {
+    type:actionTypes.useInfo,
+    info,
+  }
+}
+actions.unUseInfo = function (info) {
+  return {
+    type: actionTypes.unUseInfo,
+    info,
+  }
+}
 
 export default actions

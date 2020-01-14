@@ -60,9 +60,11 @@ class Page extends Component {
           // this.isOverflow()
         }}>
           {/* {this.state.resumeItems} */}
-          <ResumeInfo info={resumeInfo.title}></ResumeInfo>
           {
-            resumeInfo.infos.map(item=> <ResumeInfo info={item}></ResumeInfo>)
+            resumeInfo.title && <ResumeInfo  info={resumeInfo.title} showUnUse></ResumeInfo>
+          }
+          {
+            resumeInfo.infos.map((item,index)=> <ResumeInfo key={index+"_content"} info={item} showUnUse></ResumeInfo>)
           }
         </div>
       </div>

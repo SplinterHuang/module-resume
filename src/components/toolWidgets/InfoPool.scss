@@ -1,9 +1,11 @@
-.r-info-pool{
-    position: fixed;
-    z-index: 3;
-    right: 20px;
-    top: 5px;
-    border: 1px solid red;
-    height: 500px;
-    width: 400px;
+.r-info-pool {
+  position: fixed;
+  z-index: 3;
+  right: 0px;
+  top: 5px;
+  background: #eeeeee;
+  height: 500px;
+  width: 400px;
+  transition: 0.5s;
+
 }
